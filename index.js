@@ -1,26 +1,25 @@
 // index.js
 
-// -- 1. DEFINE a placeholder for our Backend API URL --
-// When you deploy your backend, you will replace this string with your real Render URL.
-const BACKEND_URL = 'https://your-backend-will-go-here.onrender.com/ask';
+// -- 1. DEFINE THE REAL Backend API URL --
+// THIS IS THE ONLY LINE YOU NEED TO CHANGE.
+// It points to your live Render server and the `/ask` endpoint we created.
+const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
 
 
-// -- 2. GET REFERENCES to our HTML elements --
-// We get them by their ID so we can interact with them.
+// -- 2. GET REFERENCES to our HTML elements (Unchanged) --
 const promptForm = document.getElementById('prompt-form');
 const promptInput = document.getElementById('prompt-input');
 const responseArea = document.getElementById('response-area');
 
 
-// -- 3. SET UP an Event Listener for the form submission --
-// This function will run every time the user clicks the "Ask" button.
+// -- 3. SET UP an Event Listener for the form submission (Unchanged) --
 promptForm.addEventListener('submit', async function(event) {
     
     // a. Prevent the browser's default behavior of reloading the page.
     event.preventDefault();
 
     // b. Get the user's question from the textarea.
-    const userQuestion = promptInput.value.trim(); // .trim() removes any accidental whitespace
+    const userQuestion = promptInput.value.trim();
 
     // c. If the user didn't type anything, do nothing.
     if (!userQuestion) {
@@ -28,39 +27,37 @@ promptForm.addEventListener('submit', async function(event) {
         return;
     }
 
-    // d. Show a "loading" message to the user and make the response area visible.
+    // d. Show a "loading" message to the user.
     responseArea.style.display = 'block';
     responseArea.textContent = 'Thinking...';
     
-    // -- 4. MAKE THE API CALL using fetch() --
-    // We wrap this in a try...catch block to handle potential errors gracefully.
+    // -- 4. MAKE THE LIVE API CALL using fetch() (The URL now works!) --
     try {
-        // Here we send the user's question to the backend.
+        // Send the user's question to your live backend.
         const response = await fetch(BACKEND_URL, {
-            method: 'POST', // We use POST because we are sending data
+            method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                // LATER: You will add your authentication token here
+                // LATER: You will add authentication here if needed.
                 // 'Authorization': `Bearer ${localStorage.getItem('authToken')}`
             },
-            body: JSON.stringify({ prompt: userQuestion }) // We send the data as a JSON object
+            body: JSON.stringify({ prompt: userQuestion })
         });
         
-        // Check if the network response was successful
+        // Check if the server responded successfully
         if (!response.ok) {
-            // If the server responded with an error (e.g., 404, 500), throw an error.
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         
         // Get the JSON data from the response (e.g., { answer: "Here is the result." })
         const data = await response.json();
         
-        // e. Display the answer from the backend in our response area.
+        // e. Display the final answer from the backend.
         responseArea.textContent = data.answer;
 
     } catch (error) {
-        // f. If anything goes wrong (network error, URL is wrong, backend is down), show an error message.
+        // f. If anything goes wrong, show a helpful error message.
         console.error("Error making API call:", error);
-        responseArea.textContent = 'Oops! Something went wrong. The backend might not be available yet. Please try again later.';
+        responseArea.textContent = 'Oops! An error occurred while communicating with the server. Please try again later.';
     }
 });
