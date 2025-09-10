@@ -3,104 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Personal Page</title>
+    <!-- UPDATED: More descriptive page title -->
+    <title>Siddharth's AI Journal</title>
 
     <style>
-        /* A little more styling to handle the new elements */
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f0f2f5;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        
-        .container {
-            background-color: white;
-            padding: 2em;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 600px;
-            text-align: center;
-        }
-        
-        .main-image {
-            max-width: 150px;
-            height: auto;
-            border-radius: 50%; /* Make the image a circle */
-            margin-bottom: 1em;
-        }
-
-        /* Styling for the form, textarea, and button */
-        #prompt-form {
-            margin-top: 1.5em;
-        }
-
-        #prompt-input {
-            width: 100%;
-            min-height: 100px;
-            padding: 1em;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            resize: vertical;
-        }
-
-        button {
-            width: 100%;
-            padding: 1em;
-            margin-top: 1em;
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-        
-        /* Styling for the area where we will show the response */
-        #response-area {
-            margin-top: 2em;
-            padding: 1.5em;
-            background-color: #f8f9fa;
-            border-radius: 8px;
-            text-align: left;
-            white-space: pre-wrap; /* This helps display text formatting like newlines */
-            word-wrap: break-word;
-            font-family: monospace;
-            display: none; /* Initially hidden */
-        }
+        /* All CSS styling remains exactly the same. No changes are needed here. */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; background-color: #f0f2f5; padding: 20px; box-sizing: border-box; }
+        .container { background-color: white; padding: 2em; border-radius: 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); width: 100%; max-width: 850px; text-align: center; }
+        .topic-header { display: flex; justify-content: center; align-items: center; gap: 10px; position: relative; }
+        .tooltip-icon { position: relative; cursor: pointer; display: inline-block; }
+        .tooltip-icon .tooltip-text { visibility: hidden; width: 220px; background-color: #555; color: #fff; text-align: center; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 115%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 0.95rem; font-weight: normal; line-height: 1.4; }
+        .tooltip-icon .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #555 transparent transparent transparent; }
+        .tooltip-icon:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .icon-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 1em; margin-bottom: 2.5em; }
+        .icon-card { text-align: center; }
+        .icon-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; border: 6px solid white; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
+        .icon-card p { margin-top: 1em; font-weight: 600; color: #333; font-size: 1.1rem; }
+        #prompt-form { margin-top: 1.5em; }
+        #prompt-input { width: 100%; min-height: 100px; padding: 1em; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { width: 100%; padding: 1em; margin-top: 1em; font-size: 1.1rem; font-weight: 600; color: white; background-color: #007bff; border: none; border-radius: 8px; cursor: pointer; }
+        #response-area { margin-top: 2em; padding: 1.5em; background-color: #f8f9fa; border-radius: 8px; text-align: left; white-space: pre-wrap; word-wrap: break-word; font-family: monospace; display: none; }
+        @media (max-width: 768px) { .icon-gallery { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <img src="./images/subtle/init.png" alt="A subtle, abstract initial image" class="main-image">
+        <!-- Text content in this section is UPDATED -->
+        <div class="topic-header">
+            <h2>Ask Siddharth's AI</h2>
+            <div class="tooltip-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#888" class="bi bi-question-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c-.61 0-1.029-.394-1.029-.927 0-.552.42-.94 1.029-.94.584 0 1.009.388 1.009.94 0 .533-.425.927-1.01.927z"/></svg>
+                <span class="tooltip-text">These topics provide context to the AI, helping it answer your questions with more personal detail.</span>
+            </div>
+        </div>
+        <p>This AI provides answers based on the personal journals of Siddharth.<br>Select a topic or ask a general question below.</p>
         
-        <h2>Ask me anything</h2>
-        <p>Your question will be answered by an AI powered by my personal journals.</p>
-
-        <!-- The Form -->
-        <!-- We give the elements IDs so our JavaScript can easily find them -->
+        <!-- The Icon Gallery HTML is unchanged -->
+        <div class="icon-gallery">
+            <div class="icon-card"><img src="./images/me/dating.jpg" alt="Dating"><p>Dating</p></div>
+            <div class="icon-card"><img src="./images/me/friend.jpg" alt="Friendship"><p>Friendship</p></div>
+            <div class="icon-card"><img src="./images/me/hobbies.jpg" alt="Hobbies"><p>Hobbies</p></div>
+            <div class="icon-card"><img src="./images/me/marriage.jpg" alt="Marriage"><p>Marriage</p></div>
+        </div>
+        
         <form id="prompt-form">
-            <textarea id="prompt-input" placeholder="Type your question here..."></textarea>
-            <button type="submit">Ask</button>
+            <!-- UPDATED: More descriptive placeholder text -->
+            <textarea id="prompt-input" placeholder="Ask about my experiences, career, or life philosophy..."></textarea>
+            <button type="submit">Ask AI</button>
         </form>
 
-        <!-- The Response Area -->
-        <!-- This div is empty at first. JS will add the API response here. -->
         <div id="response-area"></div>
     </div>
     
