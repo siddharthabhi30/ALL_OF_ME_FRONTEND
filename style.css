@@ -1,0 +1,16 @@
+/* style.css */
+
+.photo-gallery {
+    display: flex; /* a simple way to lay photos out in a row */
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.photo-gallery img {
+    width: 250px;       /* Set a fixed width */
+    height: 250px;      /* Set a fixed height */
+    object-fit: cover; /* This makes the image cover the space without distortion */
+    border-radius: 12px; /* Nice rounded corners */
+    border: 3px solid white;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}

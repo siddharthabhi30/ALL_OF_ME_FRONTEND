@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Personal Page</title>
+
+    <!-- Basic styling to make the image look good on the page -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center; /* Horizontally center the content */
+            align-items: center;    /* Vertically center the content */
+            height: 100vh;          /* Make the body take up the full viewport height */
+            margin: 0;
+            background-color: #f0f2f5; /* A light grey background */
+        }
+        
+        .main-image {
+            max-width: 90%;         /* Make the image responsive, never wider than 90% of the screen */
+            height: auto;           /* Maintain the aspect ratio */
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* A nice subtle shadow */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 
+        This is the main part.
+        The 'src' attribute points to the exact path of your image.
+        The 'alt' attribute is important for accessibility and SEO. 
+    -->
+    <img src="./images/subtle/init.png" alt="A subtle, abstract initial image for the page" class="main-image">
+
+    <!-- 
+        We will link our JavaScript file here, even though it's empty.
+        This gets it ready for when we add our login logic later. 
+    -->
+    <script src="index.js"></script>
+</body>
+</html>
