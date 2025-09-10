@@ -5,38 +5,105 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Personal Page</title>
 
-    <!-- Basic styling to make the image look good on the page -->
     <style>
+        /* A little more styling to handle the new elements */
         body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
-            justify-content: center; /* Horizontally center the content */
-            align-items: center;    /* Vertically center the content */
-            height: 100vh;          /* Make the body take up the full viewport height */
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
             margin: 0;
-            background-color: #f0f2f5; /* A light grey background */
+            background-color: #f0f2f5;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        
+        .container {
+            background-color: white;
+            padding: 2em;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+            text-align: center;
         }
         
         .main-image {
-            max-width: 90%;         /* Make the image responsive, never wider than 90% of the screen */
-            height: auto;           /* Maintain the aspect ratio */
-            border-radius: 12px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* A nice subtle shadow */
+            max-width: 150px;
+            height: auto;
+            border-radius: 50%; /* Make the image a circle */
+            margin-bottom: 1em;
+        }
+
+        /* Styling for the form, textarea, and button */
+        #prompt-form {
+            margin-top: 1.5em;
+        }
+
+        #prompt-input {
+            width: 100%;
+            min-height: 100px;
+            padding: 1em;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            padding: 1em;
+            margin-top: 1em;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Styling for the area where we will show the response */
+        #response-area {
+            margin-top: 2em;
+            padding: 1.5em;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            text-align: left;
+            white-space: pre-wrap; /* This helps display text formatting like newlines */
+            word-wrap: break-word;
+            font-family: monospace;
+            display: none; /* Initially hidden */
         }
     </style>
 </head>
 <body>
 
-    <!-- 
-        This is the main part.
-        The 'src' attribute points to the exact path of your image.
-        The 'alt' attribute is important for accessibility and SEO. 
-    -->
-    <img src="./images/subtle/init.png" alt="A subtle, abstract initial image for the page" class="main-image">
+    <div class="container">
+        <img src="./images/subtle/init.png" alt="A subtle, abstract initial image" class="main-image">
+        
+        <h2>Ask me anything</h2>
+        <p>Your question will be answered by an AI powered by my personal journals.</p>
 
-    <!-- 
-        We will link our JavaScript file here, even though it's empty.
-        This gets it ready for when we add our login logic later. 
-    -->
+        <!-- The Form -->
+        <!-- We give the elements IDs so our JavaScript can easily find them -->
+        <form id="prompt-form">
+            <textarea id="prompt-input" placeholder="Type your question here..."></textarea>
+            <button type="submit">Ask</button>
+        </form>
+
+        <!-- The Response Area -->
+        <!-- This div is empty at first. JS will add the API response here. -->
+        <div id="response-area"></div>
+    </div>
+    
     <script src="index.js"></script>
 </body>
 </html>
