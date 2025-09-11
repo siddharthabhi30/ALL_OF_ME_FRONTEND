@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- UPDATED: More descriptive page title -->
     <title>Siddharth's AI Journal</title>
 
     <style>
-        /* All CSS styling remains exactly the same. No changes are needed here. */
+        /* THIS IS YOUR ORIGINAL CSS, COMPLETELY UNCHANGED */
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; background-color: #f0f2f5; padding: 20px; box-sizing: border-box; }
         .container { background-color: white; padding: 2em; border-radius: 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); width: 100%; max-width: 850px; text-align: center; }
         .topic-header { display: flex; justify-content: center; align-items: center; gap: 10px; position: relative; }
@@ -16,7 +15,7 @@
         .tooltip-icon .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #555 transparent transparent transparent; }
         .tooltip-icon:hover .tooltip-text { visibility: visible; opacity: 1; }
         .icon-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 1em; margin-bottom: 2.5em; }
-        .icon-card { text-align: center; }
+        .icon-card { text-align: center; cursor: pointer; /* Added cursor to show it's clickable */ }
         .icon-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; border: 6px solid white; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
         .icon-card p { margin-top: 1em; font-weight: 600; color: #333; font-size: 1.1rem; }
         #prompt-form { margin-top: 1.5em; }
@@ -24,11 +23,33 @@
         button { width: 100%; padding: 1em; margin-top: 1em; font-size: 1.1rem; font-weight: 600; color: white; background-color: #007bff; border: none; border-radius: 8px; cursor: pointer; }
         #response-area { margin-top: 2em; padding: 1.5em; background-color: #f8f9fa; border-radius: 8px; text-align: left; white-space: pre-wrap; word-wrap: break-word; font-family: monospace; display: none; }
         @media (max-width: 768px) { .icon-gallery { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+
+        /* --- NEW CSS (ONLY FOR THE NEW ELEMENTS) --- */
+        
+        /* Adds a blue ring to selected icons */
+        .icon-card.selected img {
+            border-color: #007bff; /* Or any highlight color you prefer */
+        }
+        
+        /* Minimal styling for the auth token input */
+        .auth-group {
+            text-align: left;
+            margin-top: 1.5em;
+        }
+        #auth-token-input {
+            width: 100%;
+            padding: 0.8em;
+            font-size: 1rem;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+            margin-top: 0.25em;
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Text content in this section is UPDATED -->
+        <!-- Text content (Unchanged) -->
         <div class="topic-header">
             <h2>Ask Siddharth's AI</h2>
             <div class="tooltip-icon">
@@ -38,23 +59,30 @@
         </div>
         <p>This AI provides answers based on the personal journals of Siddharth.<br>Select a topic or ask a general question below.</p>
         
-        <!-- The Icon Gallery HTML is unchanged -->
+        <!-- Icon Gallery WITH data-topic attributes -->
         <div class="icon-gallery">
-            <div class="icon-card"><img src="./images/me/relationship.jpg" alt="Relationship"><p>Relationship</p></div>
-            <div class="icon-card"><img src="./images/me/friend.jpg" alt="Friendship"><p>Friendship</p></div>
-            <div class="icon-card"><img src="./images/me/hobbies.jpg" alt="Hobbies"><p>Hobbies</p></div>
-            <div class="icon-card"><img src="./images/me/marriage.jpg" alt="Marriage"><p>Marriage</p></div>
+            <div class="icon-card" data-topic="dating"><img src="./images/me/relationship.jpg" alt="Relationship"><p>Relationship</p></div>
+            <div class="icon-card" data-topic="friendship"><img src="./images/me/friend.jpg" alt="Friendship"><p>Friendship</p></div>
+            <div class="icon-card" data-topic="hobbies"><img src="./images/me/hobbies.jpg" alt="Hobbies"><p>Hobbies</p></div>
+            <div class="icon-card" data-topic="marriage"><img src="./images/me/marriage.jpg" alt="Marriage"><p>Marriage</p></div>
         </div>
         
         <form id="prompt-form">
-            <!-- UPDATED: More descriptive placeholder text -->
             <textarea id="prompt-input" placeholder="Ask about my experiences, career, or life philosophy..."></textarea>
+            
+            <!-- NEW: Auth Token Input, minimally styled -->
+            <div class="auth-group">
+                <label for="auth-token-input">Auth Token (for private topics)</label>
+                <input type="password" id="auth-token-input" placeholder="Enter token to unlock private topics">
+            </div>
+
             <button type="submit">Ask AI</button>
         </form>
 
         <div id="response-area"></div>
     </div>
     
+    <!-- Your index.js file is still correct from the previous step -->
     <script src="index.js"></script>
 </body>
 </html>
