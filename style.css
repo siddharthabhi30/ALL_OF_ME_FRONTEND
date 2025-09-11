@@ -22,3 +22,14 @@ button:disabled {
   /* A "not-allowed" icon when the user hovers over it */
   cursor: not-allowed;
 }
+
+.fallback-hint {
+        display: none; /* Hidden by default */
+        margin-top: 1em;
+        padding: 1em;
+        background-color: #fffbe6; /* A light yellow for hints */
+        border-left: 4px solid #facc15; /* A yellow accent border */
+        font-size: 0.9rem;
+        text-align: left;
+        color: #726012;
+}

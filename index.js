@@ -9,6 +9,7 @@ const authTokenInput = document.getElementById('auth-token-input');
 const responseArea = document.getElementById('response-area');
 const iconCards = document.querySelectorAll('.icon-card');
 const submitButton = document.querySelector('#prompt-form button'); // NEW: Get the button itself
+const fallbackHint = document.getElementById('fallback-hint'); // <-- ADD THIS
 
 // Event listener for clicking the topic icons (unchanged)
 iconCards.forEach(card => {
@@ -72,6 +73,8 @@ promptForm.addEventListener('submit', async function(event) {
         
         // Find the "thinking" paragraph to replace it
         const responseParagraph = responseArea.querySelector('.thinking');
+        // First, ALWAYS hide the hint at the start of a new response.
+        fallbackHint.style.display = 'none';
 
         if (!response.ok) {
             // If the backend sent a specific error message, display it, otherwise throw an error
@@ -79,6 +82,10 @@ promptForm.addEventListener('submit', async function(event) {
         } else {
             // Display the successful answer from Gemini
             responseParagraph.innerHTML = marked.parse(data.answer);
+
+            if (data.modelType === 'fallback') {
+                fallbackHint.style.display = 'block'; // Make the hint visible
+            }
         }
 
     } catch (error) {
