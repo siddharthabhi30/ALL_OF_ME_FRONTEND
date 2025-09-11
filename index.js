@@ -34,8 +34,8 @@ promptForm.addEventListener('submit', async function(event) {
     // Disable the button to prevent multiple submissions
     submitButton.disabled = true;
 
-    // Clear the PROMPT input box, but leave the auth token
-    promptInput.value = '';
+    // Don't Clear the PROMPT input box for retry, but leave the auth token
+    // promptInput.value = '';
 
     // Gather the topics from the selected icons
     const selectedCards = document.querySelectorAll('.icon-card.selected');
@@ -78,7 +78,7 @@ promptForm.addEventListener('submit', async function(event) {
             responseParagraph.textContent = data.answer || `An error occurred on the server (Status: ${response.status}).`;
         } else {
             // Display the successful answer from Gemini
-            responseParagraph.textContent = data.answer;
+            responseParagraph.innerHTML = marked.parse(data.answer);
         }
 
     } catch (error) {
