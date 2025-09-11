@@ -5,44 +5,62 @@ const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
 // Get references to ALL our interactive elements
 const promptForm = document.getElementById('prompt-form');
 const promptInput = document.getElementById('prompt-input');
-const authTokenInput = document.getElementById('auth-token-input'); // NEW
+const authTokenInput = document.getElementById('auth-token-input');
 const responseArea = document.getElementById('response-area');
-const iconCards = document.querySelectorAll('.icon-card'); // For selectable topics
+const iconCards = document.querySelectorAll('.icon-card');
+const submitButton = document.querySelector('#prompt-form button'); // NEW: Get the button itself
 
-// Event listener for clicking the topic icons
+// Event listener for clicking the topic icons (unchanged)
 iconCards.forEach(card => {
     card.addEventListener('click', () => {
-        // Toggle the 'selected' class on any card that is clicked
         card.classList.toggle('selected');
     });
 });
 
-// Event listener for submitting the main form
+// UPDATED Event listener for submitting the main form
 promptForm.addEventListener('submit', async function(event) {
     event.preventDefault(); // Prevent page reload
 
     const userQuestion = promptInput.value.trim();
-    const authToken = authTokenInput.value.trim(); // NEW: Get the token value
+    const authToken = authTokenInput.value.trim();
 
     if (!userQuestion) {
         alert("Please enter a question.");
         return;
     }
 
-    // NEW: Gather the topics from the selected icons
+    // --- 1. PREPARE THE UI FOR A NEW REQUEST ---
+
+    // Disable the button to prevent multiple submissions
+    submitButton.disabled = true;
+
+    // Clear the PROMPT input box, but leave the auth token
+    promptInput.value = '';
+
+    // Gather the topics from the selected icons
     const selectedCards = document.querySelectorAll('.icon-card.selected');
     const selectedTopics = Array.from(selectedCards).map(card => card.dataset.topic);
-
-    responseArea.style.display = 'block';
-    responseArea.textContent = 'Thinking...';
     
+    // Make the response area visible and show the user's prompt and a "thinking" message.
+    // This also clears any previous response.
+    responseArea.style.display = 'block';
+    responseArea.innerHTML = `
+        <div class="prompt-echo">
+            <strong>Your Prompt:</strong>
+            <p>${userQuestion}</p>
+        </div>
+        <hr>
+        <div class="response-content">
+            <strong>AI's Response:</strong>
+            <p class="thinking">Thinking...</p>
+        </div>
+    `;
+
+    // --- 2. MAKE THE API CALL ---
     try {
         const response = await fetch(BACKEND_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            // UPDATED: The body now includes the prompt, selected topics, and auth token
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
                 prompt: userQuestion,
                 topics: selectedTopics,
@@ -52,20 +70,26 @@ promptForm.addEventListener('submit', async function(event) {
         
         const data = await response.json();
         
+        // Find the "thinking" paragraph to replace it
+        const responseParagraph = responseArea.querySelector('.thinking');
+
         if (!response.ok) {
-            // If the backend sent a specific error message (like our "dating denied" one), display it
-            if (data.answer) {
-                 responseArea.textContent = data.answer;
-            } else {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            // If the backend sent a specific error message, display it, otherwise throw an error
+            responseParagraph.textContent = data.answer || `An error occurred on the server (Status: ${response.status}).`;
         } else {
             // Display the successful answer from Gemini
-            responseArea.textContent = data.answer;
+            responseParagraph.textContent = data.answer;
         }
 
     } catch (error) {
+        // Handle network errors or other issues
         console.error("Error making API call:", error);
-        responseArea.textContent = 'Oops! An error occurred while communicating with the server. Please try again later.';
+        const responseParagraph = responseArea.querySelector('.thinking');
+        responseParagraph.textContent = 'Oops! Could not connect to the server. Please check your connection and try again.';
+    } finally {
+        // --- 3. RE-ENABLE THE BUTTON ---
+        // This 'finally' block runs whether the API call succeeded or failed,
+        // ensuring the user is never stuck with a disabled button.
+        submitButton.disabled = false;
     }
 });
