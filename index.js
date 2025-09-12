@@ -34,6 +34,7 @@ promptForm.addEventListener('submit', async function(event) {
 
     // Disable the button to prevent multiple submissions
     submitButton.disabled = true;
+    fallbackHint.style.display = 'none';
 
     // Don't Clear the PROMPT input box for retry, but leave the auth token
     // promptInput.value = '';
@@ -74,7 +75,6 @@ promptForm.addEventListener('submit', async function(event) {
         // Find the "thinking" paragraph to replace it
         const responseParagraph = responseArea.querySelector('.thinking');
         // First, ALWAYS hide the hint at the start of a new response.
-        fallbackHint.style.display = 'none';
 
         if (!response.ok) {
             // If the backend sent a specific error message, display it, otherwise throw an error
