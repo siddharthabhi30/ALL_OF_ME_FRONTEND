@@ -33,3 +33,16 @@ button:disabled {
         text-align: left;
         color: #726012;
 }
+
+.button-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+    margin-top: 1.5em;
+}
+
+.button-group button {
+    /* This removes the margin-top from the button itself
+       since the container now handles the spacing */
+    margin-top: 0; 
+}

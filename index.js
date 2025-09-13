@@ -1,9 +1,9 @@
 // index.js
 
-const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
+//const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
 
 // backup
-//const BACKEND_URL = 'https://all-of-me-eight.vercel.app/ask';
+const BACKEND_URL = 'https://all-of-me-eight.vercel.app/ask';
 
 // Get references to ALL our interactive elements
 const promptForm = document.getElementById('prompt-form');
@@ -11,8 +11,9 @@ const promptInput = document.getElementById('prompt-input');
 const authTokenInput = document.getElementById('auth-token-input');
 const responseArea = document.getElementById('response-area');
 const iconCards = document.querySelectorAll('.icon-card');
-const submitButton = document.querySelector('#prompt-form button'); // NEW: Get the button itself
-const fallbackHint = document.getElementById('fallback-hint'); // <-- ADD THIS
+const submitButtons = document.querySelectorAll('#prompt-form button'); 
+const fallbackHint = document.getElementById('fallback-hint'); 
+const dumbModelHint = document.getElementById('dumb-model-hint'); 
 
 function adjustTextareaHeight() {
     promptInput.style.height = 'auto'; // Reset the height
@@ -38,6 +39,9 @@ promptForm.addEventListener('submit', async function(event) {
     const userQuestion = promptInput.value.trim();
     const authToken = authTokenInput.value.trim();
 
+    const clickedButton = event.submitter;
+    const modelRequested = clickedButton.value;
+
     if (!userQuestion) {
         alert("Please enter a question.");
         return;
@@ -46,8 +50,9 @@ promptForm.addEventListener('submit', async function(event) {
     // --- 1. PREPARE THE UI FOR A NEW REQUEST ---
 
     // Disable the button to prevent multiple submissions
-    submitButton.disabled = true;
+    submitButtons.forEach(button => button.disabled = true);
     fallbackHint.style.display = 'none';
+    dumbModelHint.style.display = 'none';
 
     // Don't Clear the PROMPT input box for retry, but leave the auth token
     // promptInput.value = '';
@@ -79,10 +84,10 @@ promptForm.addEventListener('submit', async function(event) {
             body: JSON.stringify({
                 prompt: userQuestion,
                 topics: selectedTopics,
-                authToken: authToken
+                authToken: authToken,
+                modelRequested: modelRequested
             })
         });
-        
         const data = await response.json();
         
         // Find the "thinking" paragraph to replace it
@@ -95,9 +100,14 @@ promptForm.addEventListener('submit', async function(event) {
         } else {
             // Display the successful answer from Gemini
             responseParagraph.innerHTML = marked.parse(data.answer);
-
-            if (data.modelType === 'fallback') {
-                fallbackHint.style.display = 'block'; // Make the hint visible
+            
+            // Case 1: Primary was requested, but fallback was used
+            if (data.modelRequested === 'primary' && data.modelType === 'fallback') {
+                fallbackHint.style.display = 'block';
+            }
+            // Case 2: Fallback was requested, so show the "dumb model" note
+            else if (data.modelRequested === 'fallback' && data.modelType === 'fallback') {
+                dumbModelHint.style.display = 'block';
             }
         }
 
@@ -110,6 +120,6 @@ promptForm.addEventListener('submit', async function(event) {
         // --- 3. RE-ENABLE THE BUTTON ---
         // This 'finally' block runs whether the API call succeeded or failed,
         // ensuring the user is never stuck with a disabled button.
-        submitButton.disabled = false;
+        submitButtons.forEach(button => button.disabled = false);
     }
 });
