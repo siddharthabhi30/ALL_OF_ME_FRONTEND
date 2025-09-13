@@ -6,47 +6,7 @@
     <link rel="stylesheet" href="style.css">
     <title>Siddharth's AI Journal</title>
 
-    <style>
-        /* THIS IS YOUR ORIGINAL CSS, COMPLETELY UNCHANGED */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; background-color: #f0f2f5; padding: 20px; box-sizing: border-box; }
-        .container { background-color: white; padding: 2em; border-radius: 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); width: 100%; max-width: 850px; text-align: center; }
-        .topic-header { display: flex; justify-content: center; align-items: center; gap: 10px; position: relative; }
-        .tooltip-icon { position: relative; cursor: pointer; display: inline-block; }
-        .tooltip-icon .tooltip-text { visibility: hidden; width: 220px; background-color: #555; color: #fff; text-align: center; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 115%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 0.95rem; font-weight: normal; line-height: 1.4; }
-        .tooltip-icon .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #555 transparent transparent transparent; }
-        .tooltip-icon:hover .tooltip-text { visibility: visible; opacity: 1; }
-        .icon-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 1em; margin-bottom: 2.5em; }
-        .icon-card { text-align: center; cursor: pointer; /* Added cursor to show it's clickable */ }
-        .icon-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; border: 6px solid white; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
-        .icon-card p { margin-top: 1em; font-weight: 600; color: #333; font-size: 1.1rem; }
-        #prompt-form { margin-top: 1.5em; }
-        #prompt-input { width: 100%; min-height: 100px; padding: 1em; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { width: 100%; padding: 1em; margin-top: 1em; font-size: 1.1rem; font-weight: 600; color: white; background-color: #007bff; border: none; border-radius: 8px; cursor: pointer; }
-        #response-area { margin-top: 2em; padding: 1.5em; background-color: #f8f9fa; border-radius: 8px; text-align: left; white-space: pre-wrap; word-wrap: break-word; font-family: monospace; display: none; }
-        @media (max-width: 768px) { .icon-gallery { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
-
-        /* --- NEW CSS (ONLY FOR THE NEW ELEMENTS) --- */
-        
-        /* Adds a blue ring to selected icons */
-        .icon-card.selected img {
-            border-color: #007bff; /* Or any highlight color you prefer */
-        }
-        
-        /* Minimal styling for the auth token input */
-        .auth-group {
-            text-align: left;
-            margin-top: 1.5em;
-        }
-        #auth-token-input {
-            width: 100%;
-            padding: 0.8em;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            margin-top: 0.25em;
-        }
-    </style>
+    
 </head>
 <body>
     <div class="container">

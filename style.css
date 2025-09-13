@@ -1,39 +1,151 @@
-/* style.css */
-
-.photo-gallery {
-    display: flex; /* a simple way to lay photos out in a row */
-    gap: 15px;
-    flex-wrap: wrap;
+/* ============================================= */
+/* 1. General and Body Styles                    */
+/* ============================================= */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    margin: 0;
+    background-color: #f0f2f5;
+    padding: 20px;
+    box-sizing: border-box;
 }
 
-.photo-gallery img {
-    width: 250px;       /* Set a fixed width */
-    height: 250px;      /* Set a fixed height */
-    object-fit: cover; /* This makes the image cover the space without distortion */
-    border-radius: 12px; /* Nice rounded corners */
-    border: 3px solid white;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+.container {
+    background-color: white;
+    padding: 2em;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 850px;
+    text-align: center;
 }
 
-button:disabled {
-  /* A grey, inactive color to show it can't be clicked */
-  background-color: #aab8c5;
-  
-  /* A "not-allowed" icon when the user hovers over it */
-  cursor: not-allowed;
+/* ============================================= */
+/* 2. Header and Tooltip                         */
+/* ============================================= */
+.topic-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    position: relative;
 }
 
-.fallback-hint {
-        display: none; /* Hidden by default */
-        margin-top: 1em;
-        padding: 1em;
-        background-color: #fffbe6; /* A light yellow for hints */
-        border-left: 4px solid #facc15; /* A yellow accent border */
-        font-size: 0.9rem;
-        text-align: left;
-        color: #726012;
+.tooltip-icon {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
 }
 
+.tooltip-icon .tooltip-text {
+    visibility: hidden;
+    width: 220px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 115%;
+    left: 50%;
+    margin-left: -110px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.95rem;
+    font-weight: normal;
+    line-height: 1.4;
+}
+
+.tooltip-icon .tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* ============================================= */
+/* 3. Icon Gallery (Topics)                      */
+/* ============================================= */
+.icon-gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    margin-top: 1em;
+    margin-bottom: 2.5em;
+}
+
+.icon-card {
+    text-align: center;
+    cursor: pointer;
+}
+
+.icon-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 50%;
+    /* Start with a neutral, consistent border */
+    border: 6px solid #f0f2f5; 
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    transition: border-color 0.3s ease;
+}
+
+.icon-card.selected img {
+    /* Change border color on selection for clear feedback */
+    border-color: #007bff;
+}
+
+.icon-card p {
+    margin-top: 1em;
+    font-weight: 600;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+/* ============================================= */
+/* 4. Form and Inputs                            */
+/* ============================================= */
+#prompt-form {
+    margin-top: 1.5em;
+}
+
+#prompt-input,
+#auth-token-input {
+    width: 100%;
+    padding: 1em;
+    font-size: 1rem;
+    border-radius: 8px;
+    /* Use a consistent, subtle border for all inputs */
+    border: 1px solid #dee2e6;
+    background-color: #f8f9fa;
+    box-sizing: border-box;
+}
+
+#auth-token-input {
+    padding: 0.8em; /* Slightly less padding for a single line input */
+}
+
+.auth-group {
+    text-align: left;
+    margin-top: 1.5em;
+}
+
+/* ============================================= */
+/* 5. Buttons                                    */
+/* ============================================= */
 .button-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -42,46 +154,114 @@ button:disabled {
 }
 
 .button-group button {
-    /* This removes the margin-top from the button itself
-       since the container now handles the spacing */
-    margin-top: 0; 
+    margin-top: 0;
 }
 
+/* Base button style (now smaller) */
+button {
+    width: 100%;
+    padding: 0.8em;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
 
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Secondary (fallback) button color */
+button.btn-secondary {
+    background-color: #6c757d;
+}
+
+button.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+/* Disabled state for ALL buttons */
+button:disabled {
+    background-color: #aab8c5;
+    cursor: not-allowed;
+}
+
+/* ============================================= */
+/* 6. Hints and Response Area                    */
+/* ============================================= */
+.form-hint p {
+    font-size: 0.85rem;
+    color: #6c757d;
+    margin: 0.5em 0;
+    line-height: 1.5;
+}
+
+.fallback-hint {
+    display: none;
+    margin-top: 1em;
+    padding: 1em;
+    background-color: #fffbe6;
+    border-left: 4px solid #facc15;
+    font-size: 0.9rem;
+    text-align: left;
+    color: #726012;
+}
+
+#response-area {
+    margin-top: 2em;
+    padding: 1.5em;
+    background-color: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    text-align: left;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: monospace;
+    display: none;
+}
+
+/* ============================================= */
+/* 7. Mobile-Friendly Styles (Media Queries)     */
+/* ============================================= */
 @media (max-width: 600px) {
+    body {
+        /* Remove padding for a full-screen mobile experience */
+        padding: 0;
+    }
 
-    /* 1. Make the main container use the full screen width */
     .container {
-        /* Reduce padding to give content more room */
-        padding: 1.5em 1em;
-        
-        /* Make the shadow more subtle on mobile */
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        /* Make the container flush with the screen edges */
+        width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+        box-shadow: none;
+        padding: 2em 1.5em;
+        box-sizing: border-box;
     }
 
-    /* 2. Make the icon grid a 2x2 layout with less space */
     .icon-gallery {
+        /* Stack to a 2x2 grid */
         grid-template-columns: repeat(2, 1fr);
-        gap: 20px; /* Reduce the gap between icons */
+        gap: 20px;
     }
 
-    /* 3. Make the two action buttons stack vertically */
     .button-group {
-        /* Instead of two columns, make it one column */
+        /* Stack buttons vertically */
         grid-template-columns: 1fr;
         gap: 0.8em;
     }
-    
-    /* 4. Adjust heading sizes to prevent them from being too large */
+
+    /* Adjust font sizes for smaller screens */
     h2 {
-        font-size: 1.5rem; /* Make the main heading a bit smaller */
+        font-size: 1.5rem;
     }
-
     .icon-card p {
-        font-size: 1rem; /* Slightly smaller icon labels */
+        font-size: 1rem;
     }
-
-    /* 5. Reduce the size of the "Pro Tip" hint box text */
     .form-hint p {
         font-size: 0.8rem;
     }
