@@ -2,6 +2,9 @@
 
 const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
 
+// backup
+//const BACKEND_URL = 'https://all-of-me-eight.vercel.app/ask';
+
 // Get references to ALL our interactive elements
 const promptForm = document.getElementById('prompt-form');
 const promptInput = document.getElementById('prompt-input');
@@ -11,6 +14,16 @@ const iconCards = document.querySelectorAll('.icon-card');
 const submitButton = document.querySelector('#prompt-form button'); // NEW: Get the button itself
 const fallbackHint = document.getElementById('fallback-hint'); // <-- ADD THIS
 
+function adjustTextareaHeight() {
+    promptInput.style.height = 'auto'; // Reset the height
+    promptInput.style.height = (promptInput.scrollHeight) + 'px'; // Set it to the full content height
+}
+
+// Add an 'input' event listener that calls our function
+promptInput.addEventListener('input', adjustTextareaHeight);
+
+// Call it once on page load in case of saved content (like browser autofill)
+adjustTextareaHeight();
 // Event listener for clicking the topic icons (unchanged)
 iconCards.forEach(card => {
     card.addEventListener('click', () => {

@@ -69,7 +69,11 @@
         </div>
         
         <form id="prompt-form">
-            <textarea id="prompt-input" placeholder="Ask about my experiences, career, or life philosophy..."></textarea>
+   <textarea 
+  id="prompt-input" 
+  placeholder="Ask about my experiences, career, or life philosophy..." 
+  oninput="this.style.height = 0; this.style.height = (this.scrollHeight + 3) + 'px';"
+></textarea>
             
             <!-- NEW: Auth Token Input, minimally styled -->
             <div class="auth-group">
