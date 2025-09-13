@@ -46,3 +46,43 @@ button:disabled {
        since the container now handles the spacing */
     margin-top: 0; 
 }
+
+
+@media (max-width: 600px) {
+
+    /* 1. Make the main container use the full screen width */
+    .container {
+        /* Reduce padding to give content more room */
+        padding: 1.5em 1em;
+        
+        /* Make the shadow more subtle on mobile */
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    }
+
+    /* 2. Make the icon grid a 2x2 layout with less space */
+    .icon-gallery {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px; /* Reduce the gap between icons */
+    }
+
+    /* 3. Make the two action buttons stack vertically */
+    .button-group {
+        /* Instead of two columns, make it one column */
+        grid-template-columns: 1fr;
+        gap: 0.8em;
+    }
+    
+    /* 4. Adjust heading sizes to prevent them from being too large */
+    h2 {
+        font-size: 1.5rem; /* Make the main heading a bit smaller */
+    }
+
+    .icon-card p {
+        font-size: 1rem; /* Slightly smaller icon labels */
+    }
+
+    /* 5. Reduce the size of the "Pro Tip" hint box text */
+    .form-hint p {
+        font-size: 0.8rem;
+    }
+}
