@@ -1,6 +1,10 @@
 /* style.css */
 
-/* --- Theme Configuration --- */
+/* --- 1. GLOBAL RESET & FIXES (Critical) --- */
+*, *::before, *::after {
+    box-sizing: border-box; /* Fixes the "element is wider than 100%" issue */
+}
+
 :root {
     /* Deep Space Theme */
     --bg-deep: #0a0e17;
@@ -8,8 +12,8 @@
     --bg-input: #1e293b; 
     
     /* Neons */
-    --accent-primary: #6366f1;    /* Indigo Neon */
-    --accent-secondary: #3b82f6;  /* Blue */
+    --accent-primary: #6366f1;
+    --accent-secondary: #3b82f6;
     --accent-glow: rgba(99, 102, 241, 0.4);
     
     /* Text */
@@ -23,56 +27,55 @@
     --anim-speed: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+html {
+    -webkit-text-size-adjust: 100%; /* Prevents font scaling issues on mobile */
+}
+
 body {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
     background-color: var(--bg-deep);
     color: var(--text-bright);
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    min-height: 100vh;
+    align-items: flex-start; /* "center" here can cause mobile top-clipping, start is safer */
+    min-height: 100vh; /* Fallback */
+    min-height: 100dvh; /* Dynamic viewport for mobile URL bars */
     margin: 0;
-    padding: 40px 20px; /* Default Desktop Padding */
-    box-sizing: border-box;
+    padding: 40px 20px;
+    overflow-x: hidden; /* Kills horizontal scroll */
 }
 
-/* Animated Background */
+/* Background */
 .bg-gradient {
     position: fixed;
-    top: 0; left: 0; width: 100vw; height: 100vh;
+    top: 0; left: 0; right: 0; bottom: 0; /* Inset 0 is safer than 100vw/100vh */
     background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0a0e17 70%);
     z-index: -1;
     pointer-events: none;
 }
 
-/* --- Main Container --- */
+/* --- Container --- */
 .container {
     background-color: var(--bg-glass);
+    width: 100%;
+    max-width: 850px;
     padding: 3em 2.5em;
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-float);
     backdrop-filter: blur(12px); 
     -webkit-backdrop-filter: blur(12px);
     border: 1px solid var(--border-subtle);
-    width: 100%;
-    max-width: 850px;
     text-align: center;
     display: flex;
     flex-direction: column;
+    margin: auto; /* Helps center it if flex fails on older browsers */
 }
 
-/* Fade In Animation */
 .fade-in { animation: smoothRise 0.7s ease-out forwards; opacity: 0; transform: translateY(20px); }
 @keyframes smoothRise { to { opacity: 1; transform: translateY(0); } }
 
-/* --- Header & Typography --- */
-.topic-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 10px;
-}
+/* --- Headers --- */
+.topic-header { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; }
 
 h2 {
     font-family: 'Outfit', sans-serif;
@@ -93,7 +96,7 @@ h2 {
     margin-bottom: 2.5em;
 }
 
-/* --- Icons / Images --- */
+/* --- Images --- */
 .icon-gallery {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -107,6 +110,7 @@ h2 {
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative; /* For stacking context */
 }
 .icon-card:hover { transform: translateY(-6px); }
 
@@ -118,40 +122,32 @@ h2 {
     padding: 4px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
-    transition: background var(--anim-speed), box-shadow var(--anim-speed);
+    transition: all var(--anim-speed);
 }
 
 .icon-card img {
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
+    width: 100%; height: 100%;
+    border-radius: 50%; object-fit: cover; display: block;
 }
 
 .icon-card p {
-    margin-top: 12px;
-    font-weight: 500;
-    color: var(--text-muted);
-    font-size: 0.9rem;
-    transition: color var(--anim-speed);
+    margin-top: 12px; font-weight: 500; color: var(--text-muted);
+    font-size: 0.9rem; transition: color var(--anim-speed);
 }
 
-/* Selected State */
 .icon-card.selected .img-wrapper {
     background: linear-gradient(135deg, var(--accent-primary), #3b82f6);
-    box-shadow: 0 0 20px var(--accent-glow);
-    border: none;
+    box-shadow: 0 0 20px var(--accent-glow); border: none;
 }
 .icon-card.selected p { color: #818cf8; font-weight: 600; text-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
 
-
-/* --- QUICK PROMPTS (Spark Conversation) --- */
+/* --- PROMPTS SECTION (Cleaned Layout) --- */
 .quick-prompts-container {
-    text-align: left;
-    margin-bottom: 25px; /* Spacing between this section and input box */
     display: flex;
     flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 25px; /* Clear spacing above input */
 }
 
 .prompts-label {
@@ -161,45 +157,39 @@ h2 {
     letter-spacing: 1px;
     font-weight: 600;
     margin-left: 4px;
-    /* IMPORTANT FIX: Separation between the Label and the clickable chips */
-    margin-bottom: 15px; 
-    display: block;
+    margin-bottom: 15px; /* Space between label and buttons */
 }
 
 .prompts-scroll-area {
     display: flex;
     gap: 10px;
-    overflow-x: auto; 
+    width: 100%;
+    padding: 4px; /* Buffer for box-shadows */
+    /* Desktop Default: Wrap */
     flex-wrap: wrap; 
-    /* Small padding around chips to prevent hover clipping */
-    padding: 4px; 
 }
 
 .chip-btn {
     background: rgba(255, 255, 255, 0.05);
     color: #e2e8f0;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 8px 16px;
+    border-radius: 24px;
+    padding: 10px 18px; /* Taller tap target */
     font-size: 0.85rem;
     cursor: pointer;
     transition: all 0.2s ease;
     white-space: nowrap; 
-    flex: 0 0 auto; 
+    user-select: none;
 }
 
 .chip-btn:hover {
-    background: rgba(99, 102, 241, 0.2); 
+    background: rgba(99, 102, 241, 0.2);
     border-color: var(--accent-primary);
-    transform: translateY(-3px); /* Lifts up nicely */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-}
-.chip-btn:active {
-    transform: translateY(-1px); /* Press effect */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-
-/* --- FORM INPUTS --- */
+/* --- INPUTS --- */
 #prompt-input {
     background-color: #131b2b;
     color: var(--text-bright);
@@ -207,56 +197,58 @@ h2 {
     border-radius: 16px;
     padding: 1.2em;
     width: 100%;
-    box-sizing: border-box;
-    font-family: inherit;
-    font-size: 1.05rem;
-    line-height: 1.6;
-    resize: none;
+    /* Min width reset for flex items */
+    min-width: 0; 
+    
+    font-family: inherit; font-size: 1.05rem; line-height: 1.6; resize: none;
     transition: border-color 0.3s, box-shadow 0.3s;
     
-    /* Height Control */
+    /* Height & Scroll */
     min-height: 70px;
     max-height: 200px;
-    overflow-y: auto; 
+    overflow-y: auto;
     overscroll-behavior: contain;
+    -webkit-appearance: none; /* Fix for Samsung input borders */
+}
+#prompt-input:focus {
+    outline: none; border-color: var(--accent-primary);
+    box-shadow: 0 0 20px -5px var(--accent-glow); background-color: #1a2436;
 }
 
-/* Custom scrollbar for input */
-#prompt-input::-webkit-scrollbar { width: 10px; }
-#prompt-input::-webkit-scrollbar-track { background: rgba(255,255,255,0.05); border-top-right-radius: 16px; border-bottom-right-radius: 16px; }
-#prompt-input::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 20px; border: 2px solid #131b2b; }
+/* Input Scrollbar */
+#prompt-input::-webkit-scrollbar { width: 8px; }
+#prompt-input::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+#prompt-input::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 20px; }
 #prompt-input:focus::-webkit-scrollbar-thumb { background-color: var(--accent-primary); }
 
-#prompt-input:focus {
-    outline: none;
-    border-color: var(--accent-primary);
-    box-shadow: 0 0 20px -5px var(--accent-glow);
-    background-color: #1a2436;
-}
 
 #auth-token-input {
     width: 100%;
+    min-width: 0; /* Flex item overflow fix */
     background-color: #131b2b;
     border: 2px solid var(--border-subtle);
     padding: 1em;
     border-radius: 12px;
     color: white;
     font-size: 1rem;
-    box-sizing: border-box;
     transition: all 0.3s;
+    -webkit-appearance: none;
 }
 #auth-token-input:focus { outline: none; border-color: var(--accent-primary); }
-.auth-group { margin-top: 1.5em; text-align: left; }
-.auth-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; display: block; text-transform: uppercase; letter-spacing: 0.5px; }
-.lock-icon { font-size: 1.1em; margin-right: 5px; }
 
+.auth-group { margin-top: 1.5em; text-align: left; width: 100%; }
+.auth-group label {
+    font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+    margin-bottom: 8px; display: block; text-transform: uppercase;
+}
 
 /* --- BUTTONS --- */
 .button-group {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
+    gap: 16px;
     margin-top: 1.5em;
+    width: 100%;
 }
 
 button {
@@ -267,10 +259,8 @@ button {
     font-family: 'Outfit', sans-serif;
     font-size: 1rem;
     font-weight: 600;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    -webkit-appearance: none;
 }
 button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 
@@ -279,30 +269,21 @@ button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 
 .btn-secondary { background: rgba(255,255,255,0.07); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.05); }
 .btn-secondary:hover { background: rgba(255,255,255,0.12); color: white; border-color: rgba(255,255,255,0.2); }
-
 .small-tag { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.7rem; opacity: 0.9; margin-top: 2px; }
 
-
 /* --- HINTS & RESPONSE --- */
-.form-hint { margin-top: 2em; background: linear-gradient(90deg, rgba(99, 102, 241, 0.1), transparent); border-left: 3px solid var(--accent-primary); padding: 1em; border-radius: 6px; text-align: left; font-size: 0.9rem; color: #c7d2fe; }
-
+.form-hint {
+    margin-top: 2em; background: linear-gradient(90deg, rgba(99, 102, 241, 0.1), transparent);
+    border-left: 3px solid var(--accent-primary); padding: 1em; border-radius: 6px; text-align: left; font-size: 0.9rem; color: #c7d2fe;
+}
 .fallback-hint { margin-top: 1.5em; padding: 1.2em; border-radius: 12px; text-align: left; display: none; font-size: 0.9rem; }
 .info-yellow { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.3); color: #fde047; }
 .info-blue { background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); color: #93c5fd; }
 
 #response-area {
-    margin-top: 3em;
-    background: #111827;
-    border: 1px solid #2d3748;
-    border-radius: 16px;
-    padding: 2.5em;
-    text-align: left;
-    line-height: 1.8;
-    display: none;
-    color: #e2e8f0;
+    margin-top: 3em; background: #111827; border: 1px solid #2d3748;
+    border-radius: 16px; padding: 2.5em; text-align: left; line-height: 1.8; display: none; color: #e2e8f0; width: 100%;
 }
-
-/* Thinking Animation */
 .thinking-box { display: flex; align-items: center; gap: 12px; color: var(--accent-primary); }
 .loader { width: 24px; height: 24px; border: 3px solid rgba(99, 102, 241, 0.3); border-radius: 50%; border-top-color: var(--accent-primary); animation: spin 0.8s linear infinite; }
 @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -316,31 +297,41 @@ button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 .info-svg { fill: var(--text-muted); } .tooltip-icon:hover .info-svg { fill: white; }
 
 
-/* --- MOBILE SPECIFIC (Padding & Spacing Fixes) --- */
+/* --- MOBILE BREAKPOINTS (Corrected Logic) --- */
 @media (max-width: 768px) {
-    body { 
-        /* IMPORTANT FIX: Adds padding so the card isn't stuck to the edges */
-        padding: 15px; 
+    body {
+        padding: 20px 15px; /* Small uniform padding from viewport edge */
+        align-items: flex-start; /* Don't center vertically */
     }
-    
+
     .container {
         padding: 1.5em 1.2em;
-        border: 1px solid var(--border-subtle);
+        width: 100%;
+        margin: 0 auto;
         border-radius: 12px;
-        /* Ensure it looks like a card on mobile, not a full page takeover */
-        min-height: auto; 
+        min-height: auto; /* reset */
     }
     
+    h2 { font-size: 1.6rem; }
     .icon-gallery { grid-template-columns: repeat(2, 1fr); gap: 15px; }
     .button-group { grid-template-columns: 1fr; gap: 12px; }
-    h2 { font-size: 1.6rem; }
 
+    /* Samsung / Mobile Layout Fix: Force Chips Horizontal Scroll */
     .prompts-scroll-area {
-        flex-wrap: nowrap; /* Enable side scrolling on mobile */
+        flex-wrap: nowrap; /* Force line */
         overflow-x: auto;
-        padding-bottom: 15px; /* Safe area for scroll */
+        padding-bottom: 10px;
+        /* Momentum scrolling */
         -webkit-overflow-scrolling: touch;
-        scrollbar-width: none; /* Clean look */
+        /* Ensure proper alignment mask */
+        mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
+        /* Clean up scrollbars */
+        scrollbar-width: none; 
+        -ms-overflow-style: none;
     }
     .prompts-scroll-area::-webkit-scrollbar { display: none; }
+    
+    /* Make buttons shrink-safe on tiny screens */
+    .chip-btn { flex-shrink: 0; }
 }

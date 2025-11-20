@@ -1,5 +1,6 @@
 // index.js
-//const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
+
+// const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
 // backup
 const BACKEND_URL = 'https://all-of-me-eight.vercel.app/ask';
 
@@ -13,40 +14,32 @@ const submitButtons = document.querySelectorAll('#prompt-form button');
 const fallbackHint = document.getElementById('fallback-hint'); 
 const dumbModelHint = document.getElementById('dumb-model-hint'); 
 
-// FIX #1 Logic: Click Listener for Prompt Chips
+// FIX: Chip Button Logic (Appends text)
 const chipButtons = document.querySelectorAll('.chip-btn');
 chipButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const textToAdd = btn.getAttribute('data-text');
         const currentText = promptInput.value.trim();
 
-        // Append logic:
         if (currentText.length > 0) {
-            // If text exists, add a space then the new question
             promptInput.value = currentText + " " + textToAdd;
         } else {
-            // If empty, just set it
             promptInput.value = textToAdd;
         }
-        
-        // Recalculate height
         adjustTextareaHeight();
-        
-        // Bring focus back to input for typing more
         promptInput.focus();
     });
 });
 
-// Textarea Height Logic
+// Auto-Expand Textarea
 function adjustTextareaHeight() {
     promptInput.style.height = 'auto';
-    // Height will respect CSS max-height
     promptInput.style.height = (promptInput.scrollHeight + 2) + 'px';
 }
 promptInput.addEventListener('input', adjustTextareaHeight);
 adjustTextareaHeight();
 
-// Toggle Topic Selection
+// Topic Select
 iconCards.forEach(card => {
     card.addEventListener('click', () => {
         card.classList.toggle('selected');
@@ -67,7 +60,7 @@ promptForm.addEventListener('submit', async function(event) {
         return;
     }
 
-    // Disable UI
+    // Reset UI
     submitButtons.forEach(button => button.disabled = true);
     fallbackHint.style.display = 'none';
     dumbModelHint.style.display = 'none';
@@ -77,7 +70,7 @@ promptForm.addEventListener('submit', async function(event) {
     
     responseArea.style.display = 'block';
     
-    // Animation UI
+    // Animation
     responseArea.innerHTML = `
         <div class="prompt-echo">
             <div style="font-size:0.75rem; opacity:0.5; text-transform:uppercase;">You Asked</div>
