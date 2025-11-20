@@ -3,114 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
     <title>Siddharth's AI Journal</title>
-
-    <style>
-        /* THIS IS YOUR ORIGINAL CSS, COMPLETELY UNCHANGED */
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; display: flex; justify-content: center; align-items: flex-start; min-height: 100vh; margin: 0; background-color: #f0f2f5; padding: 20px; box-sizing: border-box; }
-        .container { background-color: white; padding: 2em; border-radius: 16px; box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1); width: 100%; max-width: 850px; text-align: center; }
-        .topic-header { display: flex; justify-content: center; align-items: center; gap: 10px; position: relative; }
-        .tooltip-icon { position: relative; cursor: pointer; display: inline-block; }
-        .tooltip-icon .tooltip-text { visibility: hidden; width: 220px; background-color: #555; color: #fff; text-align: center; border-radius: 6px; padding: 10px; position: absolute; z-index: 1; bottom: 115%; left: 50%; margin-left: -110px; opacity: 0; transition: opacity 0.3s; font-size: 0.95rem; font-weight: normal; line-height: 1.4; }
-        .tooltip-icon .tooltip-text::after { content: ""; position: absolute; top: 100%; left: 50%; margin-left: -5px; border-width: 5px; border-style: solid; border-color: #555 transparent transparent transparent; }
-        .tooltip-icon:hover .tooltip-text { visibility: visible; opacity: 1; }
-        .icon-gallery { display: grid; grid-template-columns: repeat(4, 1fr); gap: 30px; margin-top: 1em; margin-bottom: 2.5em; }
-        .icon-card { text-align: center; cursor: pointer; /* Added cursor to show it's clickable */ }
-        .icon-card img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 50%; border: 6px solid white; box-shadow: 0 5px 20px rgba(0,0,0,0.15); }
-        .icon-card p { margin-top: 1em; font-weight: 600; color: #333; font-size: 1.1rem; }
-        #prompt-form { margin-top: 1.5em; }
-        #prompt-input { width: 100%; min-height: 100px; padding: 1em; font-size: 1rem; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
-        button { width: 100%; padding: 1em; margin-top: 1em; font-size: 1.1rem; font-weight: 600; color: white; background-color: #007bff; border: none; border-radius: 8px; cursor: pointer; }
-        #response-area { margin-top: 2em; padding: 1.5em; background-color: #f8f9fa; border-radius: 8px; text-align: left; white-space: pre-wrap; word-wrap: break-word; font-family: monospace; display: none; }
-        @media (max-width: 768px) { .icon-gallery { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
-
-        /* --- NEW CSS (ONLY FOR THE NEW ELEMENTS) --- */
-        
-        /* Adds a blue ring to selected icons */
-        .icon-card.selected img {
-            border-color: #007bff; /* Or any highlight color you prefer */
-        }
-        
-        /* Minimal styling for the auth token input */
-        .auth-group {
-            text-align: left;
-            margin-top: 1.5em;
-        }
-        #auth-token-input {
-            width: 100%;
-            padding: 0.8em;
-            font-size: 1rem;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-sizing: border-box;
-            margin-top: 0.25em;
-        }
-    </style>
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <!-- Text content (Unchanged) -->
+    <div class="bg-gradient"></div>
+
+    <div class="container fade-in">
+        <!-- Header -->
         <div class="topic-header">
             <h2>Ask Siddharth's AI</h2>
             <div class="tooltip-icon">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#888" class="bi bi-question-circle-fill" viewBox="0 0 16 16"><path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c-.61 0-1.029-.394-1.029-.927 0-.552.42-.94 1.029-.94.584 0 1.009.388 1.009.94 0 .533-.425.927-1.01.927z"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-question-circle-fill info-svg" viewBox="0 0 16 16">
+                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c-.61 0-1.029-.394-1.029-.927 0-.552.42-.94 1.029-.94.584 0 1.009.388 1.009.94 0 .533-.425.927-1.01.927z"/>
+                </svg>
                 <span class="tooltip-text">These topics provide context to the AI, helping it answer your questions with more personal detail.</span>
             </div>
         </div>
-        <p>This AI provides answers based on the personal journals of Siddharth.<br>Select a topic or ask a general question below.</p>
         
-        <!-- Icon Gallery WITH data-topic attributes -->
+        <p class="subtitle">Dive into my personal journals. Select a topic or ask freely.</p>
+        
+        <!-- Icon Gallery -->
         <div class="icon-gallery">
-            <div class="icon-card" data-topic="relationship"><img src="./images/me/relationship.jpg" alt="Relationship"><p>Relationship</p></div>
-            <div class="icon-card" data-topic="friendship"><img src="./images/me/friend.jpg" alt="Friendship"><p>Friendship</p></div>
-            <div class="icon-card" data-topic="hobbies"><img src="./images/me/hobbies.jpg" alt="Hobbies"><p>Hobbies</p></div>
-            <div class="icon-card" data-topic="marriage"><img src="./images/me/marriage.jpg" alt="Marriage"><p>Marriage</p></div>
+            <div class="icon-card" data-topic="relationship">
+                <div class="img-wrapper"><img src="./images/me/relationship.jpg" alt="Relationship"></div>
+                <p>Relationship</p>
+            </div>
+            <div class="icon-card" data-topic="friendship">
+                <div class="img-wrapper"><img src="./images/me/friend.jpg" alt="Friendship"></div>
+                <p>Friendship</p>
+            </div>
+            <div class="icon-card" data-topic="hobbies">
+                <div class="img-wrapper"><img src="./images/me/hobbies.jpg" alt="Hobbies"></div>
+                <p>Hobbies</p>
+            </div>
+            <div class="icon-card" data-topic="marriage">
+                <div class="img-wrapper"><img src="./images/me/marriage.jpg" alt="Marriage"></div>
+                <p>Marriage</p>
+            </div>
         </div>
         
         <form id="prompt-form">
-   <textarea 
-  id="prompt-input" 
-  placeholder="Ask about my experiences, career, or life philosophy..." 
-  oninput="this.style.height = 0; this.style.height = (this.scrollHeight + 3) + 'px';"
-></textarea>
             
-            <!-- NEW: Auth Token Input, minimally styled -->
+            <!-- NEW: Quick Question Chips -->
+            <div class="quick-prompts-container">
+                <span class="prompts-label">Spark a conversation:</span>
+                <div class="prompts-scroll-area">
+                    <button type="button" class="chip-btn" data-text="Tell me something interesting about yourself that isn't obvious.">
+                        ✨ Something interesting
+                    </button>
+                    <button type="button" class="chip-btn" data-text="What are your core values and what do you want most in life?">
+                        🌱 Life goals
+                    </button>
+                    <button type="button" class="chip-btn" data-text="What qualities are you looking for in a marriage partner?">
+                        💍 Marriage views
+                    </button>
+                    <button type="button" class="chip-btn" data-text="What does a perfect weekend look like for you?">
+                        🎨 Weekend Vibes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Text Area -->
+            <textarea 
+                id="prompt-input" 
+                placeholder="Ask about experiences, career, or life philosophy..." 
+                rows="1"
+            ></textarea>
+            
             <div class="auth-group">
-                <label for="auth-token-input">Auth Token (for private topics)</label>
-                <input type="password" id="auth-token-input" placeholder="Enter token to unlock private topics">
+                <label for="auth-token-input">
+                    <span class="lock-icon">🔒</span> Private Access Token
+                </label>
+                <input type="password" id="auth-token-input" placeholder="Enter passcode...">
             </div>
 
             <div class="button-group">
-                <button type of="submit" name="modelRequested" value="primary">
-                    Intelligent Response (Slower)
+                <button type="submit" name="modelRequested" value="primary" class="btn-primary glow-effect">
+                    Intelligent Response
+                    <span class="small-tag">✨ Recommended</span>
                 </button>
                 <button type="submit" name="modelRequested" value="fallback" class="btn-secondary">
-                    Dumb Response (Faster)
+                    Quick Response
+                    <span class="small-tag">⚡ Low Latency</span>
                 </button>
             </div>
 
             <div class="form-hint">
-                <p><strong>Pro Tip:</strong> For the best results, ask multiple questions at once and select "Intelligent Response".
-                </p>
-                <p><strong>Please note:</strong> This is not a conversational chatbot. Follow-up questions are not yet supported.
-                </p>
+                <p><strong>🚀 Pro Tip:</strong> For deeper answers, ask multiple questions in one go using the Intelligent Response.</p>
             </div>
         </form>
 
         <div id="response-area"></div>
         
-        <div id="fallback-hint" class="fallback-hint">
-            <b>Hint:</b> This response was generated by our dumb model. For a more detailed, higher-quality answer, please consider asking around 7:30 - 12:30 ( morning) IST or wait for scheduling feature (upcoming) for your question
+        <div id="fallback-hint" class="fallback-hint info-yellow">
+            <b>Hint:</b> Generated by the basic model. For a deeper answer, try between 7:30 - 12:30 IST.
         </div>
 
-        <div id="dumb-model-hint" class="fallback-hint" style="background-color: #eef2ff; border-left-color: #6366f1;">
-            <b>Note:</b> This response was generated by the faster model as requested. For a more detailed, higher-quality
-            answer, please select "Intelligent Response".
+        <div id="dumb-model-hint" class="fallback-hint info-blue">
+            <b>Note:</b> You selected the fast model. Use "Intelligent Response" for higher quality.
         </div>
+    </div>
     
-    
-    <!-- Your index.js file is still correct from the previous step -->
     <script src="index.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>

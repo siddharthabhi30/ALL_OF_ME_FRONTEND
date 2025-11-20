@@ -1,11 +1,9 @@
 // index.js
-
 //const BACKEND_URL = 'https://all-of-me.onrender.com/ask';
-
 // backup
 const BACKEND_URL = 'https://all-of-me-eight.vercel.app/ask';
 
-// Get references to ALL our interactive elements
+// Element References
 const promptForm = document.getElementById('prompt-form');
 const promptInput = document.getElementById('prompt-input');
 const authTokenInput = document.getElementById('auth-token-input');
@@ -15,30 +13,52 @@ const submitButtons = document.querySelectorAll('#prompt-form button');
 const fallbackHint = document.getElementById('fallback-hint'); 
 const dumbModelHint = document.getElementById('dumb-model-hint'); 
 
+// FIX #1 Logic: Click Listener for Prompt Chips
+const chipButtons = document.querySelectorAll('.chip-btn');
+chipButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const textToAdd = btn.getAttribute('data-text');
+        const currentText = promptInput.value.trim();
+
+        // Append logic:
+        if (currentText.length > 0) {
+            // If text exists, add a space then the new question
+            promptInput.value = currentText + " " + textToAdd;
+        } else {
+            // If empty, just set it
+            promptInput.value = textToAdd;
+        }
+        
+        // Recalculate height
+        adjustTextareaHeight();
+        
+        // Bring focus back to input for typing more
+        promptInput.focus();
+    });
+});
+
+// Textarea Height Logic
 function adjustTextareaHeight() {
-    promptInput.style.height = 'auto'; // Reset the height
-    promptInput.style.height = (promptInput.scrollHeight) + 'px'; // Set it to the full content height
+    promptInput.style.height = 'auto';
+    // Height will respect CSS max-height
+    promptInput.style.height = (promptInput.scrollHeight + 2) + 'px';
 }
-
-// Add an 'input' event listener that calls our function
 promptInput.addEventListener('input', adjustTextareaHeight);
-
-// Call it once on page load in case of saved content (like browser autofill)
 adjustTextareaHeight();
-// Event listener for clicking the topic icons (unchanged)
+
+// Toggle Topic Selection
 iconCards.forEach(card => {
     card.addEventListener('click', () => {
         card.classList.toggle('selected');
     });
 });
 
-// UPDATED Event listener for submitting the main form
+// Submit Logic
 promptForm.addEventListener('submit', async function(event) {
-    event.preventDefault(); // Prevent page reload
+    event.preventDefault(); 
 
     const userQuestion = promptInput.value.trim();
     const authToken = authTokenInput.value.trim();
-
     const clickedButton = event.submitter;
     const modelRequested = clickedButton.value;
 
@@ -47,36 +67,31 @@ promptForm.addEventListener('submit', async function(event) {
         return;
     }
 
-    // --- 1. PREPARE THE UI FOR A NEW REQUEST ---
-
-    // Disable the button to prevent multiple submissions
+    // Disable UI
     submitButtons.forEach(button => button.disabled = true);
     fallbackHint.style.display = 'none';
     dumbModelHint.style.display = 'none';
 
-    // Don't Clear the PROMPT input box for retry, but leave the auth token
-    // promptInput.value = '';
-
-    // Gather the topics from the selected icons
     const selectedCards = document.querySelectorAll('.icon-card.selected');
     const selectedTopics = Array.from(selectedCards).map(card => card.dataset.topic);
     
-    // Make the response area visible and show the user's prompt and a "thinking" message.
-    // This also clears any previous response.
     responseArea.style.display = 'block';
+    
+    // Animation UI
     responseArea.innerHTML = `
         <div class="prompt-echo">
-            <strong>Your Prompt:</strong>
-            <p>${userQuestion}</p>
+            <div style="font-size:0.75rem; opacity:0.5; text-transform:uppercase;">You Asked</div>
+            <div style="font-size: 1.1rem; font-style: italic; color: white; margin-top:5px;">${userQuestion}</div>
         </div>
-        <hr>
+        <hr style="border: 0; border-top: 1px solid #2d3748; margin: 1.5em 0;">
         <div class="response-content">
-            <strong>AI's Response:</strong>
-            <p class="thinking">Thinking...</p>
+             <div class="thinking thinking-box">
+                <span class="loader"></span>
+                <span style="font-weight: 500; animation: pulse 1.5s infinite;">Analysing Journals...</span>
+            </div>
         </div>
     `;
 
-    // --- 2. MAKE THE API CALL ---
     try {
         const response = await fetch(BACKEND_URL, {
             method: 'POST',
@@ -89,37 +104,26 @@ promptForm.addEventListener('submit', async function(event) {
             })
         });
         const data = await response.json();
-        
-        // Find the "thinking" paragraph to replace it
-        const responseParagraph = responseArea.querySelector('.thinking');
-        // First, ALWAYS hide the hint at the start of a new response.
+        const responseContainer = responseArea.querySelector('.response-content');
 
         if (!response.ok) {
-            // If the backend sent a specific error message, display it, otherwise throw an error
-            responseParagraph.textContent = data.answer || `An error occurred on the server (Status: ${response.status}).`;
+            responseContainer.innerHTML = `<span style="color: #f87171;">${data.answer || `Server Error: ${response.status}`}</span>`;
         } else {
-            // Display the successful answer from Gemini
-            responseParagraph.innerHTML = marked.parse(data.answer);
+            responseContainer.innerHTML = marked.parse(data.answer);
             
-            // Case 1: Primary was requested, but fallback was used
             if (data.modelRequested === 'primary' && data.modelType === 'fallback') {
                 fallbackHint.style.display = 'block';
             }
-            // Case 2: Fallback was requested, so show the "dumb model" note
             else if (data.modelRequested === 'fallback' && data.modelType === 'fallback') {
                 dumbModelHint.style.display = 'block';
             }
         }
 
     } catch (error) {
-        // Handle network errors or other issues
-        console.error("Error making API call:", error);
-        const responseParagraph = responseArea.querySelector('.thinking');
-        responseParagraph.textContent = 'Oops! Could not connect to the server. Please check your connection and try again.';
+        console.error("Error:", error);
+        const responseContainer = responseArea.querySelector('.response-content');
+        responseContainer.innerHTML = '<span style="color: #f87171;">Connection failed. Please try again later.</span>';
     } finally {
-        // --- 3. RE-ENABLE THE BUTTON ---
-        // This 'finally' block runs whether the API call succeeded or failed,
-        // ensuring the user is never stuck with a disabled button.
         submitButtons.forEach(button => button.disabled = false);
     }
 });
