@@ -1,66 +1,56 @@
 /* style.css */
 
-/* --- 1. GLOBAL RESET & FIXES (Critical) --- */
+/* --- 1. CRITICAL LAYOUT FIXES --- */
 *, *::before, *::after {
-    box-sizing: border-box; /* Fixes the "element is wider than 100%" issue */
-}
-
-:root {
-    /* Deep Space Theme */
-    --bg-deep: #0a0e17;
-    --bg-glass: rgba(30, 41, 59, 0.7); 
-    --bg-input: #1e293b; 
-    
-    /* Neons */
-    --accent-primary: #6366f1;
-    --accent-secondary: #3b82f6;
-    --accent-glow: rgba(99, 102, 241, 0.4);
-    
-    /* Text */
-    --text-bright: #f8fafc;
-    --text-muted: #94a3b8;
-    
-    /* Structure */
-    --border-subtle: rgba(255, 255, 255, 0.1);
-    --shadow-float: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
-    --radius-lg: 20px;
-    --anim-speed: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    box-sizing: border-box; 
 }
 
 html {
-    -webkit-text-size-adjust: 100%; /* Prevents font scaling issues on mobile */
+    -webkit-text-size-adjust: 100%;
 }
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--bg-deep);
-    color: var(--text-bright);
+    background-color: #0a0e17; 
+    color: #f8fafc; 
     display: flex;
     justify-content: center;
-    align-items: flex-start; /* "center" here can cause mobile top-clipping, start is safer */
-    min-height: 100vh; /* Fallback */
-    min-height: 100dvh; /* Dynamic viewport for mobile URL bars */
+    align-items: flex-start; 
+    min-height: 100vh; 
     margin: 0;
     padding: 40px 20px;
-    overflow-x: hidden; /* Kills horizontal scroll */
+    overflow-x: hidden; 
 }
 
-/* Background */
+/* --- VARIABLES --- */
+:root {
+    --bg-deep: #0a0e17;
+    --bg-glass: rgba(30, 41, 59, 0.7); 
+    --bg-input: #1e293b; 
+    --accent-primary: #6366f1;
+    --accent-secondary: #3b82f6;
+    --accent-glow: rgba(99, 102, 241, 0.4);
+    --text-muted: #94a3b8;
+    --border-subtle: rgba(255, 255, 255, 0.1);
+    --shadow-float: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+    --anim-speed: 0.2s ease-out;
+}
+
 .bg-gradient {
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0; /* Inset 0 is safer than 100vw/100vh */
+    top: 0; left: 0; right: 0; bottom: 0;
     background: radial-gradient(circle at 50% 0%, #1e293b 0%, #0a0e17 70%);
     z-index: -1;
     pointer-events: none;
 }
 
-/* --- Container --- */
+/* --- CONTAINER --- */
 .container {
     background-color: var(--bg-glass);
     width: 100%;
     max-width: 850px;
     padding: 3em 2.5em;
-    border-radius: var(--radius-lg);
+    border-radius: 20px;
     box-shadow: var(--shadow-float);
     backdrop-filter: blur(12px); 
     -webkit-backdrop-filter: blur(12px);
@@ -68,35 +58,23 @@ body {
     text-align: center;
     display: flex;
     flex-direction: column;
-    margin: auto; /* Helps center it if flex fails on older browsers */
 }
 
 .fade-in { animation: smoothRise 0.7s ease-out forwards; opacity: 0; transform: translateY(20px); }
 @keyframes smoothRise { to { opacity: 1; transform: translateY(0); } }
 
-/* --- Headers --- */
+/* --- TYPOGRAPHY --- */
 .topic-header { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; }
 
 h2 {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 700;
-    font-size: 2rem;
-    margin: 0;
-    background: linear-gradient(120deg, #ffffff, #cbd5e1);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 2rem; margin: 0;
+    background: linear-gradient(120deg, #ffffff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
 }
 
-.subtitle {
-    font-family: 'Inter', sans-serif;
-    color: var(--text-muted);
-    font-weight: 300;
-    font-size: 1.05rem;
-    margin-bottom: 2.5em;
-}
+.subtitle { font-family: 'Inter', sans-serif; color: var(--text-muted); font-weight: 300; font-size: 1.05rem; margin-bottom: 2.5em; }
 
-/* --- Images --- */
+/* --- IMAGES (Strict Circle Fix) --- */
 .icon-gallery {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -107,27 +85,28 @@ h2 {
 .icon-card {
     cursor: pointer;
     transition: transform var(--anim-speed);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    position: relative; /* For stacking context */
+    display: flex; flex-direction: column; align-items: center;
+    min-width: 0; 
 }
 .icon-card:hover { transform: translateY(-6px); }
 
 .img-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 1/1;
+    aspect-ratio: 1 / 1; 
     border-radius: 50%;
     padding: 4px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
     transition: all var(--anim-speed);
+    overflow: hidden; 
 }
 
 .icon-card img {
-    width: 100%; height: 100%;
-    border-radius: 50%; object-fit: cover; display: block;
+    width: 100%; height: 100%; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    display: block;
 }
 
 .icon-card p {
@@ -141,132 +120,73 @@ h2 {
 }
 .icon-card.selected p { color: #818cf8; font-weight: 600; text-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
 
-/* --- PROMPTS SECTION (Cleaned Layout) --- */
+/* --- SPARK CHIPS --- */
 .quick-prompts-container {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-    margin-bottom: 25px; /* Clear spacing above input */
+    display: flex; flex-direction: column; align-items: flex-start; width: 100%; margin-bottom: 25px;
 }
-
 .prompts-label {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 600;
-    margin-left: 4px;
-    margin-bottom: 15px; /* Space between label and buttons */
+    font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase;
+    letter-spacing: 1px; font-weight: 600; margin-left: 4px; margin-bottom: 15px;
 }
-
 .prompts-scroll-area {
-    display: flex;
-    gap: 10px;
-    width: 100%;
-    padding: 4px; /* Buffer for box-shadows */
-    /* Desktop Default: Wrap */
-    flex-wrap: wrap; 
+    display: flex; gap: 10px; width: 100%; padding: 4px; flex-wrap: wrap;
 }
-
 .chip-btn {
-    background: rgba(255, 255, 255, 0.05);
-    color: #e2e8f0;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
-    padding: 10px 18px; /* Taller tap target */
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    white-space: nowrap; 
-    user-select: none;
+    background: rgba(255, 255, 255, 0.05); color: #e2e8f0;
+    border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; padding: 10px 18px;
+    font-size: 0.85rem; cursor: pointer; transition: all 0.2s ease; white-space: nowrap;
 }
-
 .chip-btn:hover {
-    background: rgba(99, 102, 241, 0.2);
-    border-color: var(--accent-primary);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    background: rgba(99, 102, 241, 0.2); border-color: var(--accent-primary);
+    transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 /* --- INPUTS --- */
 #prompt-input {
-    background-color: #131b2b;
-    color: var(--text-bright);
-    border: 2px solid var(--border-subtle);
+    background-color: #131b2b; color: #f8fafc; border: 2px solid var(--border-subtle);
     border-radius: 16px;
-    padding: 1.2em;
-    width: 100%;
-    /* Min width reset for flex items */
-    min-width: 0; 
     
+    /* FIX: Decreased Top/Bottom Padding (from 1.2em to 15px/20px) */
+    /* This brings the "Ask about..." placeholder up to a natural position */
+    padding: 15px 20px;
+    
+    width: 100%; min-width: 0;
     font-family: inherit; font-size: 1.05rem; line-height: 1.6; resize: none;
     transition: border-color 0.3s, box-shadow 0.3s;
-    
-    /* Height & Scroll */
-    min-height: 70px;
-    max-height: 200px;
-    overflow-y: auto;
-    overscroll-behavior: contain;
-    -webkit-appearance: none; /* Fix for Samsung input borders */
+    min-height: 70px; max-height: 200px; overflow-y: auto; overscroll-behavior: contain;
 }
 #prompt-input:focus {
     outline: none; border-color: var(--accent-primary);
     box-shadow: 0 0 20px -5px var(--accent-glow); background-color: #1a2436;
 }
-
 /* Input Scrollbar */
 #prompt-input::-webkit-scrollbar { width: 8px; }
 #prompt-input::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
 #prompt-input::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 20px; }
 #prompt-input:focus::-webkit-scrollbar-thumb { background-color: var(--accent-primary); }
 
-
 #auth-token-input {
-    width: 100%;
-    min-width: 0; /* Flex item overflow fix */
-    background-color: #131b2b;
-    border: 2px solid var(--border-subtle);
-    padding: 1em;
-    border-radius: 12px;
-    color: white;
-    font-size: 1rem;
-    transition: all 0.3s;
+    width: 100%; background-color: #131b2b; border: 2px solid var(--border-subtle);
+    padding: 1em; border-radius: 12px; color: white; font-size: 1rem;
     -webkit-appearance: none;
 }
 #auth-token-input:focus { outline: none; border-color: var(--accent-primary); }
-
 .auth-group { margin-top: 1.5em; text-align: left; width: 100%; }
-.auth-group label {
-    font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
-    margin-bottom: 8px; display: block; text-transform: uppercase;
-}
+.auth-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; display: block; text-transform: uppercase; }
 
 /* --- BUTTONS --- */
 .button-group {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 1.5em;
-    width: 100%;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 1.5em; width: 100%;
 }
-
 button {
-    border: none;
-    padding: 1.2em;
-    border-radius: 14px;
-    cursor: pointer;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
+    border: none; padding: 1.2em; border-radius: 14px; cursor: pointer;
+    font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
     -webkit-appearance: none;
 }
 button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
-
 .btn-primary { background: linear-gradient(135deg, var(--accent-primary), #4f46e5); color: white; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4); }
 .btn-primary:hover { filter: brightness(1.15); transform: translateY(-2px); }
-
 .btn-secondary { background: rgba(255,255,255,0.07); color: var(--text-muted); border: 1px solid rgba(255,255,255,0.05); }
 .btn-secondary:hover { background: rgba(255,255,255,0.12); color: white; border-color: rgba(255,255,255,0.2); }
 .small-tag { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.7rem; opacity: 0.9; margin-top: 2px; }
@@ -288,7 +208,6 @@ button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 .loader { width: 24px; height: 24px; border: 3px solid rgba(99, 102, 241, 0.3); border-radius: 50%; border-top-color: var(--accent-primary); animation: spin 0.8s linear infinite; }
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
-/* Tooltips */
 .tooltip-icon { position: relative; cursor: help; }
 .tooltip-text {
     visibility: hidden; width: 220px; background: #1f2937; color: white; text-align: center; border-radius: 8px; padding: 12px; position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.3s; font-size: 0.8rem; border: 1px solid #374151; z-index: 50; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
@@ -297,41 +216,26 @@ button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 .info-svg { fill: var(--text-muted); } .tooltip-icon:hover .info-svg { fill: white; }
 
 
-/* --- MOBILE BREAKPOINTS (Corrected Logic) --- */
+/* --- MOBILE SPECIFIC --- */
 @media (max-width: 768px) {
     body {
-        padding: 20px 15px; /* Small uniform padding from viewport edge */
-        align-items: flex-start; /* Don't center vertically */
+        padding: 20px 15px; 
     }
-
     .container {
-        padding: 1.5em 1.2em;
-        width: 100%;
-        margin: 0 auto;
-        border-radius: 12px;
-        min-height: auto; /* reset */
+        padding: 1.5em 1.2em; width: 100%; border-radius: 12px;
     }
     
-    h2 { font-size: 1.6rem; }
     .icon-gallery { grid-template-columns: repeat(2, 1fr); gap: 15px; }
     .button-group { grid-template-columns: 1fr; gap: 12px; }
+    h2 { font-size: 1.6rem; }
 
-    /* Samsung / Mobile Layout Fix: Force Chips Horizontal Scroll */
+    /* Mobile Chips Horizontal Scroll */
     .prompts-scroll-area {
-        flex-wrap: nowrap; /* Force line */
-        overflow-x: auto;
-        padding-bottom: 10px;
-        /* Momentum scrolling */
+        flex-wrap: nowrap;
+        overflow-x: auto; padding-bottom: 10px;
         -webkit-overflow-scrolling: touch;
-        /* Ensure proper alignment mask */
-        mask-image: linear-gradient(to right, black 90%, transparent 100%);
-        -webkit-mask-image: linear-gradient(to right, black 90%, transparent 100%);
-        /* Clean up scrollbars */
-        scrollbar-width: none; 
-        -ms-overflow-style: none;
+        scrollbar-width: none;
     }
     .prompts-scroll-area::-webkit-scrollbar { display: none; }
-    
-    /* Make buttons shrink-safe on tiny screens */
     .chip-btn { flex-shrink: 0; }
 }

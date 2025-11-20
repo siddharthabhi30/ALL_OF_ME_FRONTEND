@@ -4,7 +4,7 @@
 // backup
 const BACKEND_URL = 'https://all-of-me-eight.vercel.app/ask';
 
-// Element References
+// Interactive Elements
 const promptForm = document.getElementById('prompt-form');
 const promptInput = document.getElementById('prompt-input');
 const authTokenInput = document.getElementById('auth-token-input');
@@ -14,7 +14,7 @@ const submitButtons = document.querySelectorAll('#prompt-form button');
 const fallbackHint = document.getElementById('fallback-hint'); 
 const dumbModelHint = document.getElementById('dumb-model-hint'); 
 
-// FIX: Chip Button Logic (Appends text)
+// Spark Chips
 const chipButtons = document.querySelectorAll('.chip-btn');
 chipButtons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -31,7 +31,7 @@ chipButtons.forEach(btn => {
     });
 });
 
-// Auto-Expand Textarea
+// Textarea Auto-Resize
 function adjustTextareaHeight() {
     promptInput.style.height = 'auto';
     promptInput.style.height = (promptInput.scrollHeight + 2) + 'px';
@@ -46,7 +46,7 @@ iconCards.forEach(card => {
     });
 });
 
-// Submit Logic
+// Submit
 promptForm.addEventListener('submit', async function(event) {
     event.preventDefault(); 
 
@@ -60,7 +60,7 @@ promptForm.addEventListener('submit', async function(event) {
         return;
     }
 
-    // Reset UI
+    // Reset
     submitButtons.forEach(button => button.disabled = true);
     fallbackHint.style.display = 'none';
     dumbModelHint.style.display = 'none';
@@ -70,7 +70,7 @@ promptForm.addEventListener('submit', async function(event) {
     
     responseArea.style.display = 'block';
     
-    // Animation
+    // Thinking Animation
     responseArea.innerHTML = `
         <div class="prompt-echo">
             <div style="font-size:0.75rem; opacity:0.5; text-transform:uppercase;">You Asked</div>
