@@ -1,6 +1,6 @@
 /* style.css */
 
-/* --- 1. CRITICAL LAYOUT FIXES --- */
+/* --- 1. GLOBAL --- */
 *, *::before, *::after {
     box-sizing: border-box; 
 }
@@ -22,7 +22,6 @@ body {
     overflow-x: hidden; 
 }
 
-/* --- VARIABLES --- */
 :root {
     --bg-deep: #0a0e17;
     --bg-glass: rgba(30, 41, 59, 0.7); 
@@ -44,7 +43,6 @@ body {
     pointer-events: none;
 }
 
-/* --- CONTAINER --- */
 .container {
     background-color: var(--bg-glass);
     width: 100%;
@@ -63,7 +61,6 @@ body {
 .fade-in { animation: smoothRise 0.7s ease-out forwards; opacity: 0; transform: translateY(20px); }
 @keyframes smoothRise { to { opacity: 1; transform: translateY(0); } }
 
-/* --- TYPOGRAPHY --- */
 .topic-header { display: flex; justify-content: center; align-items: center; gap: 12px; margin-bottom: 10px; }
 
 h2 {
@@ -71,56 +68,36 @@ h2 {
     background: linear-gradient(120deg, #ffffff, #cbd5e1); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
     letter-spacing: -0.5px;
 }
-
 .subtitle { font-family: 'Inter', sans-serif; color: var(--text-muted); font-weight: 300; font-size: 1.05rem; margin-bottom: 2.5em; }
 
-/* --- IMAGES (Strict Circle Fix) --- */
 .icon-gallery {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 25px;
-    margin-bottom: 2em;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; margin-bottom: 2em;
 }
-
 .icon-card {
-    cursor: pointer;
-    transition: transform var(--anim-speed);
-    display: flex; flex-direction: column; align-items: center;
-    min-width: 0; 
+    cursor: pointer; transition: transform var(--anim-speed);
+    display: flex; flex-direction: column; align-items: center; min-width: 0; 
 }
 .icon-card:hover { transform: translateY(-6px); }
 
 .img-wrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1; 
-    border-radius: 50%;
-    padding: 4px;
+    position: relative; width: 100%; aspect-ratio: 1 / 1; 
+    border-radius: 50%; padding: 4px;
     background: rgba(255,255,255,0.05);
     border: 1px solid rgba(255,255,255,0.1);
-    transition: all var(--anim-speed);
-    overflow: hidden; 
+    transition: all var(--anim-speed); overflow: hidden; 
 }
-
 .icon-card img {
-    width: 100%; height: 100%; 
-    border-radius: 50%; 
-    object-fit: cover; 
-    display: block;
+    width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: block;
 }
-
 .icon-card p {
-    margin-top: 12px; font-weight: 500; color: var(--text-muted);
-    font-size: 0.9rem; transition: color var(--anim-speed);
+    margin-top: 12px; font-weight: 500; color: var(--text-muted); font-size: 0.9rem; transition: color var(--anim-speed);
 }
-
 .icon-card.selected .img-wrapper {
     background: linear-gradient(135deg, var(--accent-primary), #3b82f6);
     box-shadow: 0 0 20px var(--accent-glow); border: none;
 }
 .icon-card.selected p { color: #818cf8; font-weight: 600; text-shadow: 0 0 10px rgba(99, 102, 241, 0.5); }
 
-/* --- SPARK CHIPS --- */
 .quick-prompts-container {
     display: flex; flex-direction: column; align-items: flex-start; width: 100%; margin-bottom: 25px;
 }
@@ -141,16 +118,9 @@ h2 {
     transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
-/* --- INPUTS --- */
 #prompt-input {
     background-color: #131b2b; color: #f8fafc; border: 2px solid var(--border-subtle);
-    border-radius: 16px;
-    
-    /* FIX: Decreased Top/Bottom Padding (from 1.2em to 15px/20px) */
-    /* This brings the "Ask about..." placeholder up to a natural position */
-    padding: 15px 20px;
-    
-    width: 100%; min-width: 0;
+    border-radius: 16px; padding: 15px 20px; width: 100%; min-width: 0;
     font-family: inherit; font-size: 1.05rem; line-height: 1.6; resize: none;
     transition: border-color 0.3s, box-shadow 0.3s;
     min-height: 70px; max-height: 200px; overflow-y: auto; overscroll-behavior: contain;
@@ -159,7 +129,6 @@ h2 {
     outline: none; border-color: var(--accent-primary);
     box-shadow: 0 0 20px -5px var(--accent-glow); background-color: #1a2436;
 }
-/* Input Scrollbar */
 #prompt-input::-webkit-scrollbar { width: 8px; }
 #prompt-input::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
 #prompt-input::-webkit-scrollbar-thumb { background-color: #334155; border-radius: 20px; }
@@ -167,22 +136,19 @@ h2 {
 
 #auth-token-input {
     width: 100%; background-color: #131b2b; border: 2px solid var(--border-subtle);
-    padding: 1em; border-radius: 12px; color: white; font-size: 1rem;
-    -webkit-appearance: none;
+    padding: 1em; border-radius: 12px; color: white; font-size: 1rem; -webkit-appearance: none;
 }
 #auth-token-input:focus { outline: none; border-color: var(--accent-primary); }
 .auth-group { margin-top: 1.5em; text-align: left; width: 100%; }
 .auth-group label { font-size: 0.8rem; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; display: block; text-transform: uppercase; }
 
-/* --- BUTTONS --- */
 .button-group {
     display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 1.5em; width: 100%;
 }
 button {
     border: none; padding: 1.2em; border-radius: 14px; cursor: pointer;
     font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    -webkit-appearance: none;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; -webkit-appearance: none;
 }
 button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 .btn-primary { background: linear-gradient(135deg, var(--accent-primary), #4f46e5); color: white; box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4); }
@@ -191,7 +157,6 @@ button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 .btn-secondary:hover { background: rgba(255,255,255,0.12); color: white; border-color: rgba(255,255,255,0.2); }
 .small-tag { font-family: 'Inter', sans-serif; font-weight: 400; font-size: 0.7rem; opacity: 0.9; margin-top: 2px; }
 
-/* --- HINTS & RESPONSE --- */
 .form-hint {
     margin-top: 2em; background: linear-gradient(90deg, rgba(99, 102, 241, 0.1), transparent);
     border-left: 3px solid var(--accent-primary); padding: 1em; border-radius: 6px; text-align: left; font-size: 0.9rem; color: #c7d2fe;
@@ -204,10 +169,57 @@ button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
     margin-top: 3em; background: #111827; border: 1px solid #2d3748;
     border-radius: 16px; padding: 2.5em; text-align: left; line-height: 1.8; display: none; color: #e2e8f0; width: 100%;
 }
-.thinking-box { display: flex; align-items: center; gap: 12px; color: var(--accent-primary); }
-.loader { width: 24px; height: 24px; border: 3px solid rgba(99, 102, 241, 0.3); border-radius: 50%; border-top-color: var(--accent-primary); animation: spin 0.8s linear infinite; }
+
+/* --- NEW: PROGRESS BAR & THINKING UI --- */
+.thinking-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 10px;
+    color: var(--accent-primary);
+}
+
+.thinking-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 500;
+}
+
+.loader {
+    width: 18px; height: 18px;
+    border: 2px solid rgba(99, 102, 241, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--accent-primary);
+    animation: spin 0.8s linear infinite;
+}
+
 @keyframes spin { 100% { transform: rotate(360deg); } }
 
+.pulse-text { animation: pulseOpacity 1.5s ease-in-out infinite; }
+@keyframes pulseOpacity { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+/* Progress Bar Track */
+.progress-track {
+    width: 100%;
+    height: 6px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* The Filling Bar */
+.progress-fill {
+    width: 0%; /* Starts at 0, animates via JS */
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-primary), #a855f7);
+    border-radius: 10px;
+    box-shadow: 0 0 10px var(--accent-glow);
+    /* Transition property is handled dynamically in JS based on model speed */
+}
+
+
+/* Tooltips */
 .tooltip-icon { position: relative; cursor: help; }
 .tooltip-text {
     visibility: hidden; width: 220px; background: #1f2937; color: white; text-align: center; border-radius: 8px; padding: 12px; position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%); opacity: 0; transition: 0.3s; font-size: 0.8rem; border: 1px solid #374151; z-index: 50; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
@@ -215,27 +227,13 @@ button:disabled { filter: grayscale(0.8); opacity: 0.5; cursor: not-allowed; }
 .tooltip-icon:hover .tooltip-text { visibility: visible; opacity: 1; bottom: 150%; }
 .info-svg { fill: var(--text-muted); } .tooltip-icon:hover .info-svg { fill: white; }
 
-
-/* --- MOBILE SPECIFIC --- */
 @media (max-width: 768px) {
-    body {
-        padding: 20px 15px; 
-    }
-    .container {
-        padding: 1.5em 1.2em; width: 100%; border-radius: 12px;
-    }
-    
+    body { padding: 20px 15px; }
+    .container { padding: 1.5em 1.2em; width: 100%; border-radius: 12px; }
     .icon-gallery { grid-template-columns: repeat(2, 1fr); gap: 15px; }
     .button-group { grid-template-columns: 1fr; gap: 12px; }
     h2 { font-size: 1.6rem; }
-
-    /* Mobile Chips Horizontal Scroll */
-    .prompts-scroll-area {
-        flex-wrap: nowrap;
-        overflow-x: auto; padding-bottom: 10px;
-        -webkit-overflow-scrolling: touch;
-        scrollbar-width: none;
-    }
+    .prompts-scroll-area { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 10px; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
     .prompts-scroll-area::-webkit-scrollbar { display: none; }
     .chip-btn { flex-shrink: 0; }
 }
